@@ -1,0 +1,5 @@
+{
+  "login:1000": {"account": "dev", "role": "developer"},
+  "login:0": {"account": "root", "role": "admin"},
+  "uid:33": {"account": "web", "role": "service", "service_id": "web.service"}
+}

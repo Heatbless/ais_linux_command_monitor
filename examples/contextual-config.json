@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "orientation_distinct": 4,
+    "discovery_distinct": 4,
+    "rapid_distinct": 10,
+    "burst_seconds": 20,
+    "chain_seconds": 120,
+    "auth_failure_count": 3,
+    "auth_seconds": 60,
+    "idle_seconds": 300,
+    "grouping_seconds": 30
+  },
+  "protected_paths": ["/opt/ais/model.json", "/etc/ais"],
+  "protected_services": ["host-monitor", "host-monitor.service"],
+  "protected_pids": []
+}
