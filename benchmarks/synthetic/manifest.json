@@ -1,0 +1,14 @@
+{
+  "synthetic_only": true,
+  "generated_by": "ais.demo.run(host=\"demo-host\")",
+  "seed": 42,
+  "personal_history_used": false,
+  "catalogue_used_for_training": false,
+  "sha256": {
+    "assessments.jsonl": "2de731966801fc8e3b385aa38695bb30b9da8451fafac0878ebb999acf51603b",
+    "evaluation-events.jsonl": "b3228003ae0800f3ed91a484c0e89e8abeee7fb9a4df3d61adbffcadf5a5f356",
+    "REPORT.md": "72c5def86b8ff319dc25572832cf9df80a54151329a0fbfbf0ed55ff4448e703",
+    "results.json": "0b5da46204cb8b9224c4ce457b05ceb48bc41d32f95b8afc8eca690246445f76",
+    "synthetic-workflows.json": "83e819290787564c7338bdbd58a0dc3e41563c061cfa51a0d947a8d9ddd47f96"
+  }
+}

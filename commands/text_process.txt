@@ -1,0 +1,56 @@
+sort file.txt
+sort -n numbers.txt
+sort -r file.txt
+sort -u file.txt
+sort -k2 file.txt
+sort file.txt | uniq
+sort file.txt | uniq -c
+sort file.txt | uniq -c | sort -nr
+uniq file.txt
+uniq -d file.txt
+cut -d, -f1 data.csv
+cut -d: -f1 /etc/passwd
+cut -c1-10 file.txt
+awk '{print $1}' file.txt
+awk -F, '{print $3}' data.csv
+awk '{sum+=$1} END {print sum}' numbers.txt
+awk 'NR>=10 && NR<=20' file.txt
+awk '/error/ {print $0}' log.txt
+sed 's/old/new/' file.txt
+sed 's/old/new/g' file.txt
+sed -i 's/old/new/g' file.txt
+sed -i 's/foo/bar/g' *.txt
+sed '/^$/d' file.txt
+sed -n '10,20p' file.txt
+sed '5d' file.txt
+tr a-z A-Z
+tr -d '\n'
+tr -s ' '
+paste a.txt b.txt
+join a.txt b.txt
+cat a.txt b.txt > c.txt
+diff a.txt b.txt
+diff -u a.txt b.txt
+diff -r dir1 dir2
+cmp a.bin b.bin
+comm a.txt b.txt
+split -l 1000 big.txt part_
+fold -w 80 file.txt
+column -t file.txt
+rev file.txt
+expand file.txt
+tee out.txt
+xargs
+find . -name "*.txt" | xargs wc -l
+echo "hello"
+echo $HOME
+echo "text" > file.txt
+echo "text" >> file.txt
+printf "%s\n" hello
+yes
+seq 1 10
+shuf file.txt
+shuf -n 1 file.txt
+od -c file.txt
+iconv -f latin1 -t utf8 in.txt -o out.txt
+dos2unix file.txt

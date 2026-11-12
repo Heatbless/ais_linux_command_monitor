@@ -1,0 +1,80 @@
+ip a
+ip addr show
+ip link
+ip route
+ip -s link
+ifconfig
+ifconfig eth0
+hostname -I
+curl ifconfig.me
+curl -I https://example.com
+curl -O https://example.com/file.zip
+curl -o out.html https://example.com
+curl -L https://example.com
+curl -X POST -d "a=1" https://example.com/api
+curl -H "Content-Type: application/json" -d '{"a":1}' https://example.com/api
+wget https://example.com/file.zip
+wget -c https://example.com/file.zip
+wget -r -np https://example.com/
+wget -O out.html https://example.com
+ping google.com
+ping -c 4 8.8.8.8
+traceroute google.com
+tracepath google.com
+mtr google.com
+nslookup google.com
+dig google.com
+dig +short google.com
+dig MX google.com
+host google.com
+whois google.com
+ss -tuln
+ss -tulpn
+ss -s
+netstat -tulpn
+netstat -an
+netstat -r
+nmap localhost
+nmap -sV 192.168.1.1
+nc -zv host 80
+nc -l 1234
+ssh user@host
+ssh -p 2222 user@host
+ssh -i ~/.ssh/id_rsa user@host
+ssh -L 8080:localhost:80 user@host
+ssh-keygen
+ssh-keygen -t ed25519
+ssh-copy-id user@host
+ssh-add ~/.ssh/id_rsa
+scp file.txt user@host:/tmp/
+scp -r folder/ user@host:/tmp/
+scp user@host:/tmp/file.txt .
+rsync -av src/ dest/
+rsync -avz src/ user@host:/backup/
+rsync -av --delete src/ dest/
+rsync -avzP src/ user@host:/backup/
+sftp user@host
+nmcli device status
+nmcli connection show
+nmcli device wifi list
+nmcli device wifi connect MySSID password mypass
+nmcli radio wifi off
+nmcli radio wifi on
+iwconfig
+iw dev
+sudo ufw status
+sudo ufw enable
+sudo ufw allow 22
+sudo ufw deny 8080
+sudo ufw delete allow 22
+sudo iptables -L
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+sudo nft list ruleset
+sudo firewall-cmd --list-all
+arp -a
+route -n
+tcpdump -i eth0
+tcpdump -i eth0 port 80
+iftop
+nload
+speedtest-cli

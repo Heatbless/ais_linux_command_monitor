@@ -1,0 +1,424 @@
+{
+  "synthetic_only": true,
+  "deployment_ready": false,
+  "model_version": "67fdde91819f559ff8458faa8eb06fabb7669d05c0e4f2476a7f918fbcc04429",
+  "provenance": {
+    "workflow_sha256": "83e819290787564c7338bdbd58a0dc3e41563c061cfa51a0d947a8d9ddd47f96",
+    "accepted_workflows": [
+      {
+        "id": "train_development",
+        "partition": "train",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "train_maintenance",
+        "partition": "train",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "train_backup",
+        "partition": "train",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "train_web",
+        "partition": "train",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "train_worker",
+        "partition": "train",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "train_automation",
+        "partition": "train",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "calibration_development",
+        "partition": "calibration",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "calibration_maintenance",
+        "partition": "calibration",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "calibration_backup",
+        "partition": "calibration",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "calibration_web",
+        "partition": "calibration",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "calibration_worker",
+        "partition": "calibration",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      },
+      {
+        "id": "calibration_automation",
+        "partition": "calibration",
+        "synthetic": true,
+        "approved_by": "demo_fixture",
+        "label": "normal"
+      }
+    ],
+    "evaluation_used_for_training": false
+  },
+  "profiles": 3,
+  "scenarios": [
+    {
+      "scenario": "normal_developer",
+      "synthetic_label": "normal",
+      "ais_alert": false,
+      "markov_alert": false,
+      "ais_scored_windows": 3,
+      "rules": [
+        "python_attention"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "normal_admin",
+      "synthetic_label": "normal",
+      "ais_alert": false,
+      "markov_alert": false,
+      "ais_scored_windows": 3,
+      "rules": [],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "normal_backup",
+      "synthetic_label": "normal",
+      "ais_alert": false,
+      "markov_alert": false,
+      "ais_scored_windows": 3,
+      "rules": [],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "normal_service",
+      "synthetic_label": "normal",
+      "ais_alert": false,
+      "markov_alert": false,
+      "ais_scored_windows": 3,
+      "rules": [],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "normal_service_worker",
+      "synthetic_label": "normal",
+      "ais_alert": false,
+      "markov_alert": false,
+      "ais_scored_windows": 3,
+      "rules": [
+        "python_attention"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "normal_fast_automation",
+      "synthetic_label": "normal",
+      "ais_alert": false,
+      "markov_alert": false,
+      "ais_scored_windows": 3,
+      "rules": [],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "service_orientation",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "orientation_burst"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "service_shell",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "python_attention",
+        "service_interpreter",
+        "shell_stabilization"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "host_discovery",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "discovery_burst"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "delivery_cleanup",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "delivery_cleanup",
+        "delivery_execution"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "compile_elevation",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "compile_execute"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "persistence",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "persistence_chain"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "credential_read",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "credential_read"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "credential_tool",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "credential_tool_context"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "account_persistence",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "account_change_chain"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "security_tamper",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "monitor_tamper",
+        "security_disabled"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "lateral",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "outgoing_remote_burst"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "collection",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "collection_transfer"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "impact",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "bulk_crypto_chain"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "device_overwrite",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "destructive_device_write"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "history_controls",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "history_cleared",
+        "history_setting_changed"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "auth_failures",
+      "synthetic_label": "unusual",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [
+        "repeated_auth_failure"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "same_names_different_intent",
+      "synthetic_label": "intent_control",
+      "ais_alert": false,
+      "markov_alert": false,
+      "ais_scored_windows": 3,
+      "rules": [
+        "python_attention"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "post_compromise_session",
+      "synthetic_label": "unusual",
+      "ais_alert": true,
+      "markov_alert": true,
+      "ais_scored_windows": 5,
+      "rules": [
+        "behavioral_anomaly",
+        "delivery_cleanup",
+        "delivery_execution",
+        "orientation_burst",
+        "outgoing_remote_burst",
+        "rapid_distinct_commands"
+      ],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    },
+    {
+      "scenario": "relative_program_alone",
+      "synthetic_label": "normal",
+      "ais_alert": null,
+      "markov_alert": null,
+      "ais_scored_windows": 0,
+      "rules": [],
+      "missing_expected_rules": [],
+      "unexpected_normal_rules": [],
+      "checks_passed": true
+    }
+  ],
+  "checks_passed": true
+}

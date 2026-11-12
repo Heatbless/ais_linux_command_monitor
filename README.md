@@ -6,10 +6,12 @@ Includes a local Bash/Zsh collector and a durable sender for a compatible
 monitoring server. Python execution produces a review warning independently of
 learned normality.
 
-This repository contains implementation code, tests, generic examples and
-synthetic-data generation code. Personal histories, downloaded datasets,
+This repository contains implementation code, tests, a [command reference catalogue](commands/README.md),
+a [synthetic benchmark](benchmarks/synthetic/README.md), generic examples and
+synthetic-data generation code. Personal histories, downloaded external datasets,
 trained models, credentials, server addresses, the paper and the separate
-dashboard implementation are excluded.
+dashboard implementation are excluded. Neither Bash history nor data derived
+from personal histories is included in the published benchmark.
 
 ## Setup and synthetic demonstration
 

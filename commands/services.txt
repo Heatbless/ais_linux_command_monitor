@@ -1,0 +1,27 @@
+systemctl status nginx
+systemctl start nginx
+systemctl stop nginx
+systemctl restart nginx
+systemctl reload nginx
+systemctl enable nginx
+systemctl disable nginx
+systemctl is-active nginx
+systemctl list-units --type=service
+systemctl list-unit-files
+systemctl daemon-reload
+systemctl --failed
+systemctl get-default
+systemctl set-default multi-user.target
+sudo shutdown now
+sudo shutdown -h +30
+sudo shutdown -r now
+sudo shutdown -c
+sudo reboot
+sudo poweroff
+sudo halt
+crontab -l
+crontab -e
+crontab -r
+at now + 5 minutes
+atq
+atrm 3

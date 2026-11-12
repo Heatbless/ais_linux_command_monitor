@@ -1,0 +1,58 @@
+sudo apt update
+sudo apt upgrade
+sudo apt full-upgrade
+sudo apt install htop
+sudo apt remove htop
+sudo apt purge htop
+sudo apt autoremove
+sudo apt autoclean
+apt search editor
+apt show htop
+apt list --installed
+apt list --upgradable
+dpkg -l
+dpkg -l | grep nginx
+dpkg -i package.deb
+dpkg -L nginx
+dpkg -S /bin/ls
+sudo dnf install htop
+sudo dnf remove htop
+sudo dnf update
+sudo dnf search editor
+dnf info htop
+sudo yum install httpd
+sudo pacman -Syu
+sudo pacman -S htop
+sudo pacman -R htop
+sudo pacman -Rns htop
+pacman -Ss editor
+pacman -Qi htop
+sudo zypper install htop
+sudo apk add htop
+sudo snap install code --classic
+snap list
+sudo snap remove code
+flatpak install flathub org.gimp.GIMP
+flatpak list
+flatpak run org.gimp.GIMP
+sudo add-apt-repository ppa:graphics-drivers/ppa
+pip install requests
+pip install -r requirements.txt
+pip list
+pip freeze
+pip uninstall requests
+pip3 install --user numpy
+npm install
+npm install -g typescript
+npm run build
+npm list -g --depth=0
+yarn add react
+cargo build --release
+cargo install ripgrep
+go build
+go run main.go
+gem install rails
+python3 --version
+node --version
+gcc --version
+java -version

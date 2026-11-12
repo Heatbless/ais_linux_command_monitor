@@ -1,0 +1,17 @@
+cat file.txt
+cat -n file.txt
+tac file.txt
+less file.txt
+more file.txt
+head file.txt
+head -n 20 file.txt
+tail file.txt
+tail -n 50 file.txt
+tail -f /var/log/syslog
+wc -l file.txt
+wc -w file.txt
+wc -c file.txt
+nl file.txt
+xxd file.bin
+hexdump -C file.bin
+strings binary

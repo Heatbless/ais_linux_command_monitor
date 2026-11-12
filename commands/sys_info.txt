@@ -1,0 +1,36 @@
+uname
+uname -a
+uname -r
+uname -m
+cat /etc/os-release
+lsb_release -a
+hostnamectl
+hostname
+uptime
+date
+date +%Y-%m-%d
+cal
+timedatectl
+lscpu
+lsmem
+lspci
+lsusb
+lshw
+lshw -short
+dmidecode
+cat /proc/cpuinfo
+cat /proc/meminfo
+sensors
+acpi -b
+dmesg
+dmesg | tail
+journalctl -xe
+journalctl -u nginx
+journalctl -b
+journalctl --since "1 hour ago"
+env
+printenv
+printenv PATH
+locale
+nproc
+arch
