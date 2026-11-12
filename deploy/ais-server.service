@@ -1,0 +1,24 @@
+[Unit]
+Description=AIS private monitoring dashboard and ingestion
+After=network.target
+
+[Service]
+Type=simple
+User=ais-monitor
+Group=ais-monitor
+WorkingDirectory=/opt/ais-monitor
+EnvironmentFile=/etc/ais-monitor/server.env
+Environment=AIS_DATABASE=/var/lib/ais-monitor/server.sqlite
+ExecStart=/opt/ais-monitor/.venv/bin/ais-server serve
+Restart=on-failure
+UMask=0077
+StateDirectory=ais-monitor
+StateDirectoryMode=0700
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/ais-monitor
+
+[Install]
+WantedBy=multi-user.target

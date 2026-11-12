@@ -1,138 +1,76 @@
-# AIS Linux command monitor
+# AIS monitoring server prototype
 
-Experimental Linux command monitoring using variable-radius negative selection,
-contextual attention rules and an independent first-order Markov baseline.
-Includes a local Bash/Zsh collector and a durable sender for a compatible
-monitoring server. Python execution produces a review warning independently of
-learned normality.
+This is the `monitoring-server` branch of `Heatbless/ais_linux_command_monitor`. The `main` branch contains the detector app; this branch contains the central monitoring server and sender adapter.
 
-This repository contains implementation code, tests, a [command reference catalogue](commands/README.md),
-a [synthetic benchmark](benchmarks/synthetic/README.md), generic examples and
-synthetic-data generation code. Personal histories, downloaded external datasets,
-trained models, credentials, server addresses, the paper and the separate
-dashboard implementation are excluded. Neither Bash history nor data derived
-from personal histories is included in the published benchmark.
+Implementation of the v1 scope in [SERVER_PLAN.md](SERVER_PLAN.md). This checkout originally contained only that document. The referenced detector (`ais/engine.py`, `ais/events.py`, `ais/cli.py`), detector tests and synthetic event stream were **not supplied**. The transport demonstration uses handoff-derived fixtures, not real detector output. Nested score/quality shapes must be reconciled with actual engine fixtures before integration; do not treat this prototype as deployment-ready.
 
-## Setup and synthetic demonstration
+## Local use
 
-Requires Linux/WSL, Python 3.12+ and uv.
+Requires Python 3.12+. Install into a virtual environment:
 
 ```sh
-uv sync --locked
-uv run python -m ais demo --host demo-host \
-  --output private-data/demo --report private-data/demo/report.md
-uv run python -m ais score \
-  --model private-data/demo/model.json \
-  --input private-data/demo/evaluation-events.jsonl \
-  --config examples/contextual-config.json
+python3 -m venv .venv
+.venv/bin/pip install -e '.[test]'
+.venv/bin/pytest -q
+.venv/bin/python -m ais.server.demo
 ```
 
-The generator creates separate synthetic normal training/calibration workflows
-and evaluation scenarios. It executes none of the example commands. These are
-correctness fixtures, not evidence of operational attack-detection accuracy.
-The default examples in `examples/synthetic-events.jsonl` use `demo-vm` and a
-different boot identity; use the generated evaluation file with its matching
-model as above.
-
-## Live local monitoring
-
-In terminal 1:
+Generate independent server/operator secrets into a private environment file, load it, and provision an agent:
 
 ```sh
-uv run python -m ais monitor \
-  --model private-data/demo/model.json \
-  --config examples/contextual-config.json \
-  --host demo-host
+umask 077
+.venv/bin/ais-server secrets > .env
+set -a
+. ./.env
+set +a
+.venv/bin/ais-server register 'My VM' vm-01
+.venv/bin/ais-server serve
 ```
 
-After the receiver reports ready, enable the hook in terminal 2 from this
-project directory:
+The server binds `127.0.0.1:8000`, with one worker and access logs disabled. Open that URL and sign in with `AIS_OPERATOR_TOKEN`. For a remote server, use `ssh -L 8000:127.0.0.1:8000 your-server`, then open the same local URL. The operator origin must exactly match the browser origin. Tokens never authorize dashboard access. Dashboard sessions expire after eight hours; sign in again to refresh the CSRF token.
+
+To also accept connections from your Tailscale network, with the same environment
+and database as your normal launch, run:
 
 ```sh
-# Select the shell actually running in this terminal:
-source <(uv run python -m ais hook bash)
-# For Zsh, use: source <(uv run python -m ais hook zsh)
+.venv/bin/ais-server serve --tailscale
 ```
 
-Run `python3 -c 'print("AIS test")'` to produce Python attention. Sanitized
-assessments appear in terminal 1. The collector uses a private Linux directory
-at `/tmp/ais-live-UID`, where UID is your numeric user ID. Supply `--state-dir`
-and the hook's `--socket` option to select persistent private Linux storage.
+This detects the machine's Tailscale IPv4 address and binds both that address and
+`127.0.0.1` on port 8000. Visit `http://TAILSCALE-IP:8000` from an authorized
+Tailscale device. The detected IP is added to the host and browser-origin
+allowlists; operator login, session and CSRF checks still apply. HTTP here travels
+inside Tailscale's encrypted connection. No public-interface listener is added.
+Tailscale must be running before startup; restart the app if its Tailscale IP
+changes. You can supply a specific address with `--tailscale 100.x.y.z`, or set
+`AIS_TAILSCALE_IP=auto` in the launch environment. An existing HTTPS operator origin
+requires an HTTPS proxy instead, preserving Secure session cookies.
 
-The hook observes command intentions in participating shells, not confirmed
-machine-wide executions. Unhooked terminals, internal script commands, cron,
-services and other users are outside scope. Dynamic/compound syntax can reduce
-visibility; rejected observations increment loss counters. Same-user attackers
-can disable or forge hook observations. This is a demonstration collector, not
-a security boundary. Healthy receiver status does not prove all hooks remain
-installed. Remove hooks with `trap - DEBUG` in Bash or
-`add-zsh-hook -d preexec _ais_preexec` in Zsh, then stop the monitor with Ctrl+C.
+`ais-server --database PATH rotate AGENT_ID`, `disable AGENT_ID` and `backup DESTINATION` provide operator maintenance. Registration and rotation print an agent secret once; keep it in a mode-0600 file. Backups use SQLite's backup API. Store the database in a mode-0700 directory; the CLI sets umask 077.
 
-The synthetic model has execution-source profiles. New live shell/account
-profiles report `no_profile` until approved matching normal workflows are
-trained. Rules still warn. No automatic live learning occurs.
+The dashboard's Detection log is a table of sanitized activity, with observation
+or receipt time, host/account, program/source, detector status, AIS score/threshold,
+separate Markov comparison, warning reasons and expandable event details. Red and
+amber rows indicate explicit AIS flags, warning severity or failed execution;
+purple indicates a separate Markov comparison flag. Text labels accompany colors.
+Warm-up, missing profiles/features and missing decisions remain unassessed.
+The display uses explicit detector alert decisions, not a guessed threshold
+direction. A policy warning can highlight an event even without an AIS score.
+The flagged-only filter applies to loaded activity; older activity is paginated.
+Frontend display checks can be run with `node --test tests/dashboard.test.cjs`.
 
-## Train AIS
+## Transport integration
 
-Use the structure in `examples/workflows-template.json`. Each normal workflow
-needs explicit approval, its actual host/account/source context and a partition
-of `train` or `calibration`. Keep evaluation sessions separate. Each fitting
-profile requires ten-event windows in separate normal sessions for training
-and calibration. Do not treat a reference vocabulary or attack fixture as normal.
+`Outbox.new_run()` creates a fresh process run; `Sender.register(run)` registers it. Pass already sanitized `Engine.process()` results to `Sender.enqueue(assessment, run.run_id)`. The explicit mapper drops unlisted top-level fields; nested contracts reject extras. Invalid mappings retain only a generated record ID, static error code and rejection time, never the payload. Inspect `Outbox.health()` to surface persistent faults. A duplicate assessment is omitted.
 
-```sh
-uv run python -m ais train YOUR_APPROVED_WORKFLOWS.json \
-  --output private-data/model.json
-```
+`Sender.supervise(run, health_provider, stop_event)` runs independent delivery and heartbeat loops. A health provider must supply `collector` and `detector` dictionaries backed by actual supervision, including successful poll evidence for live collectors. Do not label quiet stdin healthy. Run enqueue from the same asyncio loop for immediate warning/size-triggered wakeups. Collector checkpoints have their own persistence API and must be advanced according to collector semantics, independently of HTTP acknowledgement. Queued envelopes retain origin run IDs across restarts; previously registered retired runs can still deliver. Use HTTPS with certificate verification; injected HTTP clients are reserved for local tests.
 
-Training maps ten-command windows to bounded features and samples 1,024
-candidate detector centers. Each radius is its nearest normal-vector distance
-minus 0.02. Up to 256 positive-radius detectors are retained after checking
-normal-sample exclusion. Separate normal calibration sessions set an empirical
-99th-percentile threshold, with a strict greater-than alert comparison.
+Temporary network/capacity failures retain records and use jittered backoff. HTTP 401 pauses delivery until `credentials()` supplies corrected credentials. HTTP 409/413/422 quarantines a batch with bounded rejection metadata; inspect and correct configuration before resuming normal operation. Queue loss and rejections remain visible after reconnect. There is no automatic clearing of loss history. The server retains dedup receipts for 90 days, so retries beyond that boundary can be stored again.
 
-AIS scores are not attack probabilities. Markov scores are a separately
-calibrated transition baseline; their numerical scale is not directly comparable
-to AIS. Missing profiles/features or short sequences mean not assessed, not
-normal. The fixed-budget detector does not certify nonself coverage, and small
-synthetic calibration sets cannot establish future false-alert rates.
+## Deployment and remaining acceptance
 
-## Optional monitoring server delivery
+Review the examples in `deploy/`; they are not installed or activated. Configure an explicit ingest hostname, real TLS certificate, private database volume and service user. The TLS proxy exposes only the three POST ingestion routes; dashboard and operator routes are reached through the SSH tunnel. No VPS settings were changed.
 
-The compatible ingestion server is a separate project. Provision an agent
-whose registered host exactly matches the detector's `--host`. Store its token
-in a private mode-600 file on a Linux filesystem. Then add these options to
-`monitor`:
+The suite uses temporary databases and controlled clocks for ingestion, grouping, authentication, heartbeat expiry, outbox persistence, retention and backup. The demo asserts three delivered assessments, one grouped warning, replay heartbeat, a demo-labeled run and dashboard access, without executing listed programs. Model training/activation, learning controls, remote execution, notifications and automatic blocking are unavailable.
 
-```text
---server-url https://YOUR_INGEST_HOST
---token-file /YOUR_PRIVATE_LINUX_PATH/agent.token
-```
-
-The copied v1 contracts in `ais/contracts.py` define run registration,
-assessments and heartbeats. The sender uploads sanitized assessments, not raw
-command lines, histories or model files. A private SQLite outbox preserves
-retry identities across restarts. Heartbeats run independently every 30 seconds.
-For HTTP over an existing Tailscale route, `--allow-tailscale-http` explicitly
-permits only a literal address in `100.64.0.0/10`; it does not create or verify
-that route. HTTPS certificate checks remain enabled by default.
-
-## Validation and historical experiments
-
-```sh
-uv run python -m pytest -q
-uv run ruff check ais experiments tests
-```
-
-The `experiments/` package retains earlier history/dataset experiments and
-bounded external fetchers. Their private inputs are not included. Historical
-categorical models differ from the current contextual numerical model and
-must not be presented as the same algorithm's validation. Dataset fetchers
-retain source URLs and integrity checks; check each source's license and
-attribution requirements before redistribution. No dataset contents are run
-as shell commands.
-
-The current contextual synthetic evaluation contains 25 scenarios and 157
-events, with 72 normal training and 72 normal calibration events. Only eight
-evaluation scenarios support learned scoring. Real operational reliability
-and superiority over Markov have not been established.
+Pending supplied detector source: validate every actual output variant, run its existing suite before/after integration, connect its demo stream, and build the replay CLI adapter around its real interfaces. Pending a real VM: live collection/checkpoint integration, representative normal audit recordings, and agent termination, collector failure and network interruption demonstrations. Replay results establish no live collector capability or model accuracy.

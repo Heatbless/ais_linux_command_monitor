@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIS monitoring</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script defer src="/static/dashboard.js"></script>
+</head>
+<body><main>
+  <h1>AIS monitoring</h1>
+  <p>Monitoring availability and experimental detector observations. Scores are not attack probabilities.</p>
+  <form id="login"><label>Operator secret <input id="secret" type="password" autocomplete="current-password" required></label><button>Sign in</button></form>
+  <p id="stale" role="alert">Connect to load current data.</p>
+  <section><h2>Agents</h2><div id="agents"></div></section>
+  <section><h2>Warnings</h2>
+    <p>Historical warnings remain until retention expires. Acknowledgement records review; it does not indicate resolution. Python policy warnings are independent of AIS scores.</p>
+    <div id="alerts"></div>
+  </section>
+  <section>
+    <h2>Detection log</h2>
+    <p id="log-legend">Highlighted rows have warnings, an explicit AIS flag, a separate Markov comparison flag, or a failed execution. Unassessed activity is not labelled normal. Scores alone do not determine flags.</p>
+    <label class="log-filter"><input id="flagged-only" type="checkbox"> Show flagged rows only (loaded activity)</label>
+    <p id="log-count" aria-live="polite">Sign in to load activity.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Detection log" aria-describedby="log-legend">
+      <table>
+        <caption>Latest activity first. Times use your browser's timezone; receipt time is used when observation time is unavailable.</caption>
+        <thead><tr><th scope="col">Time</th><th scope="col">Host / account</th><th scope="col">Program / source</th><th scope="col">Result</th><th scope="col">AIS score / threshold</th><th scope="col">Markov comparison</th><th scope="col">Reason / details</th></tr></thead>
+        <tbody id="events"></tbody>
+      </table>
+    </div>
+    <p id="log-empty" hidden>No activity received yet.</p>
+    <button id="more" hidden>Older activity</button>
+  </section>
+</main></body>
+</html>

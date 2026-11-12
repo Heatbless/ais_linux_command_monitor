@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "notes": "Replace empty event lists with separate collected normal sessions. Review before setting approved=true and approved_by to your identifier. Do not invent timestamps or session identities.",
-  "workflows": [
-    {"id": "normal-training-session", "partition": "train", "label": "normal", "approved": false, "approved_by": null, "synthetic": false, "events": []},
-    {"id": "normal-calibration-session", "partition": "calibration", "label": "normal", "approved": false, "approved_by": null, "synthetic": false, "events": []}
-  ]
-}
